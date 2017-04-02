@@ -5,7 +5,10 @@
     android:orientation="vertical"
     android:gravity="center"
     >
-
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:id="@+id/scoreTextView"/>
 
 
     <TextView
@@ -21,13 +24,22 @@
 
         <Button
             android:layout_width="wrap_content"
+            android:background="@android:color/holo_green_light"
             android:layout_height="wrap_content"
             android:id="@+id/true_button"/>
 
         <Button
+            android:id="@+id/false_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/false_button"/>
+            android:background="@android:color/holo_red_light"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/moreInfoButton"
+            android:textColor="@color/colorAccent"
+            />
 
 
 
