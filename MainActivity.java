@@ -3,6 +3,7 @@ package jws.quizselector;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.Image;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,8 @@ public class MainActivity extends Activity {
     String true_text = "true";
     String correct_text = "Correct!";
     String wrong_text = "Wrong!";
+    private int userScore = 0;
+
     @Bind(R.id.questionTextView) TextView mQuestionTextView;
     @Bind(R.id.false_button) Button mFalseButton;
     @Bind(R.id.true_button) Button mTrueButton;
@@ -29,6 +32,8 @@ public class MainActivity extends Activity {
     @Bind(R.id.backButton) Button mBackButton;
     @Bind(R.id.questionImage) ImageView mQuestionImageView;
     @Bind(R.id.returnButton) Button mReturnButton;
+    @Bind(R.id.scoreTextView) TextView mScoreTextView;
+    @Bind(R.id.moreInfoButton) Button mMoreInfoButton;
 
 
     private int[] drawables = new int[] {R.drawable.civilwar, R.drawable.worldwartwo, R.drawable.constitution, R.drawable.worldwarone};
@@ -42,6 +47,7 @@ public class MainActivity extends Activity {
     private int mImageIndex = mCurrentIndex;
     private boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
     private boolean answerIsFalse = mQuestionBank[mCurrentIndex].isAnswerFalse();
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,8 @@ public class MainActivity extends Activity {
         mBackButton.setVisibility(View.INVISIBLE);
         mQuestionImageView.setImageResource(drawables[mImageIndex]);
         mReturnButton.setVisibility(View.INVISIBLE);
+        mScoreTextView.setText("Score: " + String.valueOf(userScore));
+        mMoreInfoButton.setText("More Info");
 
 
 
@@ -70,11 +78,28 @@ public class MainActivity extends Activity {
 
                 if (answerIsTrue) {
                     Toast.makeText(MainActivity.this, correct_text, Toast.LENGTH_LONG).show();
+
+                    userScore+=1;
                 }
 
                 else {
                     Toast.makeText(MainActivity.this, wrong_text, Toast.LENGTH_LONG).show();
+                    userScore-=1;
                 }
+                mScoreTextView.setText("Score: " + String.valueOf(userScore));
+
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        mNextButton.performClick();
+                        mMoreInfoButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                handler.removeCallbacksAndMessages(null);
+                            }
+                        });
+                    }
+                }, 3000);
+
             }
         });
 
@@ -86,14 +111,27 @@ public class MainActivity extends Activity {
 //
                 if (!answerIsFalse) {
                     Toast.makeText(MainActivity.this, wrong_text, Toast.LENGTH_LONG).show();
+                    userScore-=1;
                 }
 
                 if (answerIsFalse) {
                     Toast.makeText(MainActivity.this, correct_text, Toast.LENGTH_LONG).show();
+                    userScore+=1;
                 }
-                else {
-                    Toast.makeText(MainActivity.this, correct_text, Toast.LENGTH_LONG);
-                }
+
+                mScoreTextView.setText("Score: " + String.valueOf(userScore));
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        mNextButton.performClick();
+                        mMoreInfoButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                handler.removeCallbacksAndMessages(null);
+                            }
+                        });
+                    }
+                }, 3000);
+
 
             }
         });
