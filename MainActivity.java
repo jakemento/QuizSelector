@@ -1,14 +1,18 @@
 package jws.quizselector;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,9 +66,8 @@ public class MainActivity extends Activity {
         mQuestionImageView.setImageResource(drawables[mImageIndex]);
         mReturnButton.setVisibility(View.INVISIBLE);
         mScoreTextView.setText("Score: " + String.valueOf(userScore));
+        mMoreInfoButton.setVisibility(View.INVISIBLE);
         mMoreInfoButton.setText("More Info");
-
-
 
         String question = mQuestionBank[mCurrentIndex].getTextResString();
         mQuestionTextView.setText(question);
@@ -85,21 +88,9 @@ public class MainActivity extends Activity {
                 else {
                     Toast.makeText(MainActivity.this, wrong_text, Toast.LENGTH_LONG).show();
                     userScore-=1;
+                    mMoreInfoButton.setVisibility(View.VISIBLE);
                 }
                 mScoreTextView.setText("Score: " + String.valueOf(userScore));
-
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        mNextButton.performClick();
-                        mMoreInfoButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                handler.removeCallbacksAndMessages(null);
-                            }
-                        });
-                    }
-                }, 3000);
-
             }
         });
 
@@ -111,34 +102,27 @@ public class MainActivity extends Activity {
 //
                 if (!answerIsFalse) {
                     Toast.makeText(MainActivity.this, wrong_text, Toast.LENGTH_LONG).show();
-                    userScore-=1;
+                    userScore -= 1;
+                    mMoreInfoButton.setVisibility(View.VISIBLE);
                 }
 
                 if (answerIsFalse) {
                     Toast.makeText(MainActivity.this, correct_text, Toast.LENGTH_LONG).show();
-                    userScore+=1;
+                    userScore += 1;
                 }
 
                 mScoreTextView.setText("Score: " + String.valueOf(userScore));
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        mNextButton.performClick();
-                        mMoreInfoButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                handler.removeCallbacksAndMessages(null);
-                            }
-                        });
-                    }
-                }, 3000);
-
 
             }
         });
 
+
+
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mMoreInfoButton.setVisibility(View.INVISIBLE);
+
                 if (mBackButton.getVisibility() == View.INVISIBLE){
                     mBackButton.setVisibility(View.VISIBLE);
                 }
@@ -165,6 +149,7 @@ public class MainActivity extends Activity {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mMoreInfoButton.setVisibility(View.INVISIBLE);
                 mCurrentIndex = (mCurrentIndex -1) % mQuestionBank.length;
 
                 if (mCurrentIndex <= 0) {
@@ -185,6 +170,15 @@ public class MainActivity extends Activity {
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
+            }
+        });
+        mMoreInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                popupWindow.showAtLocation(mMoreInfoButton, Gravity.CENTER, 400, 400);
+                 startActivity(new Intent(MainActivity.this, infoActivity.class));
+
             }
         });
     }
