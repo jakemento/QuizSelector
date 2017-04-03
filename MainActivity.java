@@ -39,10 +39,9 @@ public class MainActivity extends Activity {
     @Bind(R.id.scoreTextView) TextView mScoreTextView;
     @Bind(R.id.moreInfoButton) Button mMoreInfoButton;
 
-
     private int[] drawables = new int[] {R.drawable.civilwar, R.drawable.worldwartwo, R.drawable.constitution, R.drawable.worldwarone};
 
-    private String[] questionList = new String[] {"The Civil War was fought between the North and the South", "World War II ended in 1945", "The Constitution was Signed in 1745", "America joined world war I in 1917"};
+    private String[] questionList = new String[] {"The Civil War was fought between the North and the South", "World War II ended in 1945", "The Constitution was written in 1745", "America joined world war I in 1917"};
 
     private Question[] mQuestionBank = new Question[] {
             new Question(questionList[0], true, drawables[0]),  new Question(questionList[1], true, drawables[1]), new Question(questionList[2], false, drawables[2]), new Question(questionList[3], true, drawables[3])
@@ -142,7 +141,6 @@ public class MainActivity extends Activity {
                 mImageIndex = mCurrentIndex;
                 mQuestionImageView.setImageResource(drawables[mImageIndex]);
 
-
             }
         });
 
@@ -176,9 +174,9 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-//                popupWindow.showAtLocation(mMoreInfoButton, Gravity.CENTER, 400, 400);
-                 startActivity(new Intent(MainActivity.this, infoActivity.class));
-
+                Intent infoIntent = new Intent(getApplicationContext(), infoActivity.class);
+                infoIntent.putExtra("currentIndex",mCurrentIndex);
+                startActivity(infoIntent);
             }
         });
     }
