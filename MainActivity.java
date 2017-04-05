@@ -3,6 +3,7 @@ package jws.quizselector;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +52,7 @@ public class MainActivity extends Activity {
     private boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
     private boolean answerIsFalse = mQuestionBank[mCurrentIndex].isAnswerFalse();
     Handler handler = new Handler();
+    private Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +70,9 @@ public class MainActivity extends Activity {
         mMoreInfoButton.setVisibility(View.INVISIBLE);
         mMoreInfoButton.setText("More Info");
 
+
         String question = mQuestionBank[mCurrentIndex].getTextResString();
         mQuestionTextView.setText(question);
-
 
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +81,8 @@ public class MainActivity extends Activity {
                 answerIsFalse = mQuestionBank[mCurrentIndex].isAnswerFalse();
 
                 if (answerIsTrue) {
+                    hideButtons();
+                    mTrueButton.setVisibility(View.VISIBLE);
                     Toast.makeText(MainActivity.this, correct_text, Toast.LENGTH_LONG).show();
 
                     userScore+=1;
@@ -90,7 +94,9 @@ public class MainActivity extends Activity {
                     mMoreInfoButton.setVisibility(View.VISIBLE);
                 }
                 mScoreTextView.setText("Score: " + String.valueOf(userScore));
+
             }
+
         });
 
         mFalseButton.setOnClickListener(new View.OnClickListener() {
@@ -111,11 +117,13 @@ public class MainActivity extends Activity {
                 }
 
                 mScoreTextView.setText("Score: " + String.valueOf(userScore));
+                mFalseButton.setVisibility(View.INVISIBLE);
+                hideButtons();
+
+
 
             }
         });
-
-
 
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +148,7 @@ public class MainActivity extends Activity {
 
                 mImageIndex = mCurrentIndex;
                 mQuestionImageView.setImageResource(drawables[mImageIndex]);
+                showButtons();
 
             }
         });
@@ -179,5 +188,13 @@ public class MainActivity extends Activity {
                 startActivity(infoIntent);
             }
         });
+    }
+    private void hideButtons() {
+        mFalseButton.setVisibility(View.INVISIBLE);
+        mTrueButton.setVisibility(View.INVISIBLE);
+    }
+    private void showButtons() {
+        mFalseButton.setVisibility(View.VISIBLE);
+        mTrueButton.setVisibility(View.VISIBLE);
     }
 }
