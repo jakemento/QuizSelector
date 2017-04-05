@@ -5,17 +5,27 @@
     android:orientation="vertical"
     android:gravity="center"
     >
+
     <TextView
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:id="@+id/scoreTextView"/>
+        android:id="@+id/scoreTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="@drawable/my_border"
+        android:padding="0.5dp"
+
+        />
 
 
     <TextView
+        android:id="@+id/questionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
-        android:id="@+id/questionTextView"/>
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -29,18 +39,17 @@
             android:id="@+id/true_button"/>
 
         <Button
+            android:id="@+id/moreInfoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            />
+
+        <Button
             android:id="@+id/false_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_red_light"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/moreInfoButton"
-            android:textColor="@color/colorAccent"
-            />
-
 
 
     </LinearLayout>
